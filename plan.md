@@ -1,36 +1,43 @@
 # Project: Pipeline
 
-## Source code management
+## System components
+
+### Source code management
 
 Options:
-    - Gitlab
-    - Gitea
+    - Gitlab -> 4GB mem...
+    - Gitea CHECK
 
-## CI/CD
+### CI/CD
 
 Options:
     - Gitlab
     - Jenkins
     - GoCD
 
-## Static Analysis
+### Static Analysis
 
 Options:
     - Sonarqube
 
-## Artifact repository
+### Artifact repository
 
 Options:
     - Artifactory
     - Sonatype Nexus
 
-## User management
+### User management
 
 Options:
-    - LDAP
+    - LDAP?
 
-## Concerns
+### Secrets
 
-- Memory!!!
-- CPU
-- Networking
+Options:
+    - Vault
+
+## Infra
+- Vagrant for VMs
+- Ubuntu 20.04 LTS
+- Networking?
+- 
