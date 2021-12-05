@@ -1,0 +1,36 @@
+---
+- name: Ensure 'admins' group exists
+  ansible.builtin.group:
+    name: admins
+    state: present
+
+- name: Create admin user
+  ansible.builtin.user:
+    name: admin
+    group: admins
+    shell: /usr/bin/bash
+
+- name: Add 'admins' group to sudoers
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    regexp: '^%admins'
+    line: '%admins ALL=(ALL) NOPASSWD: ALL'
+    validate: /usr/sbin/visudo -cf %s
+
+- name: Create .ssh directory
+  ansible.builtin.file:
+    state: directory
+    path: ~admin/.ssh
+    owner: admin
+    group: admin
+    mode: '0700'
+
+- name: Upload public key as known_hosts
+  ansible.builtin.copy:
+    src: pipeline_rsa.pub
+    dest: ~admin/.ssh/authorized_keys
+    owner: admin
+    group: admin
+    mode: '0644'
+
+# - name: Set hostname

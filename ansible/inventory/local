@@ -1,0 +1,2 @@
+[scm]
+localhost ansible_port=2222 ansible_user=admin

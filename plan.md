@@ -37,7 +37,19 @@ Options:
     - Vault
 
 ## Infra
-- Vagrant for VMs
-- Ubuntu 20.04 LTS
-- Networking?
-- 
+    - Vagrant for VMs
+    - Ubuntu 20.04 LTS
+    - Networking? Vagrant private network
+ 
+
+ ## What I want to learn
+    - LVM
+    - Firewalls
+    - Certificates
+    - Unit files?
+    - PGP keys?
+    - Hardening?
+
+What I maybe want to learn:
+    - Prometheus
+    - auditd

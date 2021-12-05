@@ -1,0 +1,6 @@
+---
+- name: Common setup for all servers
+  hosts: all
+  become: true
+  roles:
+    - common
