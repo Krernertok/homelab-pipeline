@@ -1,0 +1,8 @@
+---
+
+- hosts: test_ubuntu
+  become: true
+
+  roles:
+    - firewall
+

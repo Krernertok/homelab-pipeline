@@ -15,22 +15,27 @@
     path: /etc/sudoers
     regexp: '^%admins'
     line: '%admins ALL=(ALL) NOPASSWD: ALL'
+    backup: yes
     validate: /usr/sbin/visudo -cf %s
 
-- name: Create .ssh directory
+- name: Ensure cron.allow file exists
   ansible.builtin.file:
-    state: directory
-    path: ~admin/.ssh
-    owner: admin
-    group: admin
-    mode: '0700'
-
-- name: Upload public key as known_hosts
-  ansible.builtin.copy:
-    src: pipeline_rsa.pub
-    dest: ~admin/.ssh/authorized_keys
-    owner: admin
-    group: admin
+    state: touch
+    path: /etc/cron.d/cron.allow
+    owner: root
+    group: root
     mode: '0644'
+
+- name: Give cron access only to 'admin' user
+  ansible.builtin.lineinfile:
+    path: /etc/cron.d/cron.allow
+    regex: '^admin'
+    line: 'admin'
+
+- name: Copy SSH key to 'admin' user's authorized_keys
+  ansible.builtin.authorized_key:
+    user: admin
+    state: present
+    key: files/pipeline_rsa.pub
 
 # - name: Set hostname

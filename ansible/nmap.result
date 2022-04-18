@@ -1,0 +1,13 @@
+# Nmap 7.80 scan initiated Mon Apr 18 20:02:03 2022 as: nmap -sS -Pn -p- -T4 -vv --reason -oN nmap.result test-ubuntu
+Nmap scan report for test-ubuntu (192.168.122.220)
+Host is up, received arp-response (0.00042s latency).
+Scanned at 2022-04-18 20:02:03 EEST for 2s
+Not shown: 65533 closed ports
+Reason: 65533 resets
+PORT     STATE SERVICE  REASON
+22/tcp   open  ssh      syn-ack ttl 64
+8000/tcp open  http-alt syn-ack ttl 64
+MAC Address: 52:54:00:30:76:07 (QEMU virtual NIC)
+
+Read data files from: /usr/bin/../share/nmap
+# Nmap done at Mon Apr 18 20:02:05 2022 -- 1 IP address (1 host up) scanned in 2.09 seconds

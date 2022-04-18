@@ -1,0 +1,4 @@
+---
+
+- name: Reload iptables configuration
+  command: "sudo /usr/sbin/iptables-restore /etc/iptables/rules.v4"
