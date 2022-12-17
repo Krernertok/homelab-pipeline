@@ -5,15 +5,12 @@
 ### Source code management
 
 Options:
-    - Gitlab -> 4GB mem...
-    - Gitea CHECK
+    - Forgejo
 
 ### CI/CD
 
 Options:
-    - Gitlab
-    - Jenkins
-    - GoCD
+    - Woodpecker CI
 
 ### Static Analysis
 
