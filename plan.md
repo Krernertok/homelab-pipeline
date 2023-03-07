@@ -2,51 +2,27 @@
 
 ## System components
 
-### Source code management
+## Environment
+  - Proxmox
+  - Packer
 
-Options:
-    - Forgejo
+### Services
+  - Gitlab
+  - Sonarqube
+  - Sonatype Nexus
+  - Hashicorp Vault
+  - nginx
+  - Bind DNS
+  - OpenLDAP
+  - Prometheus
+  - Grafana
 
-### CI/CD
 
-Options:
-    - Woodpecker CI
+## VM Template
 
-### Static Analysis
+Include:
 
-Options:
-    - Sonarqube
-
-### Artifact repository
-
-Options:
-    - Artifactory
-    - Sonatype Nexus
-
-### User management
-
-Options:
-    - LDAP?
-
-### Secrets
-
-Options:
-    - Vault
-
-## Infra
-    - Vagrant for VMs
-    - Ubuntu 20.04 LTS
-    - Networking? Vagrant private network
- 
-
- ## What I want to learn
-    - LVM
-    - Firewalls
-    - Certificates
-    - Unit files?
-    - PGP keys?
-    - Hardening?
-
-What I maybe want to learn:
-    - Prometheus
-    - auditd
+  - qemu-guest-agent
+  - sudo
+  - vim
+  - docker

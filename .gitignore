@@ -1,2 +1,4 @@
-.vagrant/
 **/files/
+
+packer/packer.log
+packer/secrets.auto.pkr.hcl
