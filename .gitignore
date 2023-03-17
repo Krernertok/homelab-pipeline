@@ -1,4 +1,6 @@
 **/files/
 
+ansible/group_vars/all
+
 packer/packer.log
 packer/secrets.auto.pkr.hcl
