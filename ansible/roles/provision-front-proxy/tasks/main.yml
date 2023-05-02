@@ -1,0 +1,48 @@
+---
+- name: Create nginx VM
+  community.general.proxmox_kvm:
+    api_host: "{{ pve_host_ip }}"
+    api_user: "{{ pve_host_user }}"
+    api_password: "{{ pve_host_password }}"
+    node: "{{ pve_vyos_node }}"
+    # VM details
+    clone: "debian-11-small"
+    name: "front-proxy"
+    newid: 201
+    onboot: true
+
+- name: Configure nginx VM NIC
+  community.general.proxmox_nic:
+    api_host: "{{ pve_host_ip }}"
+    api_user: "{{ pve_host_user }}"
+    api_password: "{{ pve_host_password }}"
+    vmid: 201
+    interface: net0
+    bridge: vmbr1
+
+- name: Update nginx VM with cloud-init configuration
+  community.general.proxmox_kvm:
+    api_host: "{{ pve_host_ip }}"
+    api_user: "{{ pve_host_user }}"
+    api_password: "{{ pve_host_password }}"
+    node: "{{ pve_vyos_node }}"
+    vmid: 201
+    # cloud-init configuration
+    ciuser: "asivula"
+    cipassword: "{{ vault_asivula_password }}"
+    net:
+      net0: 'virtio,bridge=vmbr1'
+    ipconfig:
+      ipconfig0: 'ip={{ front_proxy_ip }}/24,gw={{ router_private_ip }}'
+    nameservers: ["{{ router_private_ip }}"]
+    searchdomains: ["kre"]
+    update: yes
+
+- name: Start nginx VM
+  community.general.proxmox_kvm:
+    api_host: "{{ pve_host_ip }}"
+    api_user: "{{ pve_host_user }}"
+    api_password: "{{ pve_host_password }}"
+    vmid: 201
+    state: "started"
+

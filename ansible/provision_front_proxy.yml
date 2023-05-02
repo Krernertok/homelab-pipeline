@@ -1,5 +1,4 @@
 ---
-
 - hosts: localhost
   roles:
-    - vyos-vm
+    - provision-front-proxy

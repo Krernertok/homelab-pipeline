@@ -1,5 +1,0 @@
----
-pve_host_ip: "192.168.100.100"
-pve_host_user: "root@pam"
-pve_vyos_node: "pve1"
-vyos_hostname: "vyos1"

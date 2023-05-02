@@ -1,41 +1,18 @@
 ---
-- name: Ensure 'admins' group exists
-  ansible.builtin.group:
-    name: admins
-    state: present
+- name: Set hostname
+  ansible.builtin.hostname:
+    name: "{{ hostname }}"
 
-- name: Create admin user
-  ansible.builtin.user:
-    name: admin
-    group: admins
-    shell: /usr/bin/bash
+- name: Set authorized_keys
+  ansible.posix.authorized_key:
+    user: "asivula"
+    key: "{{ lookup('file', pipeline_pubkey) }}"
 
-- name: Add 'admins' group to sudoers
+- name: Add 'asivula' to sudoers
   ansible.builtin.lineinfile:
     path: /etc/sudoers
-    regexp: '^%admins'
-    line: '%admins ALL=(ALL) NOPASSWD: ALL'
+    regexp: '^asivula'
+    line: 'asivula ALL=(ALL) NOPASSWD: ALL'
     backup: yes
     validate: /usr/sbin/visudo -cf %s
 
-- name: Ensure cron.allow file exists
-  ansible.builtin.file:
-    state: touch
-    path: /etc/cron.d/cron.allow
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Give cron access only to 'admin' user
-  ansible.builtin.lineinfile:
-    path: /etc/cron.d/cron.allow
-    regex: '^admin'
-    line: 'admin'
-
-- name: Copy SSH key to 'admin' user's authorized_keys
-  ansible.builtin.authorized_key:
-    user: admin
-    state: present
-    key: files/pipeline_rsa.pub
-
-# - name: Set hostname

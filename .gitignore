@@ -1,6 +1,8 @@
 **/files/
 
 ansible/group_vars/all
+ansible/.vault_pass
 
 packer/packer.log
-packer/secrets.auto.pkr.hcl
+**/secrets.auto.pkr.hcl
+**/pve.auto.pkr.hcl

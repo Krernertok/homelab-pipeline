@@ -1,0 +1,12 @@
+---
+
+- hosts: front-proxy
+  tasks:
+    - name: Set authorized_keys
+      ansible.posix.authorized_key:
+        user: "asivula"
+        key: "{{ lookup('file', pipeline_pubkey) }}"
+
+    - name: Set hostname
+      ansible.builtin.hostname:
+        name: "front-proxy.kre"
