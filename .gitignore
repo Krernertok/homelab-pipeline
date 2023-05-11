@@ -1,6 +1,7 @@
 **/files/
 
 ansible/group_vars/all
+ansible/inventory/pve1
 ansible/.vault_pass
 
 packer/packer.log

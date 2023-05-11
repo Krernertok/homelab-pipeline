@@ -1,0 +1,12 @@
+$TTL  300
+@ IN  SOA {{ base_fqdn }} root.{{ base_fqdn }} (
+    {{ dns_serial }}  ; Serial
+              604800  ; Refresh
+               86400  ; Retry
+             2419200  ; Expire
+               300 )  ; Negative Cache TTL
+
+@                      IN  NS  {{ nameserver_fqdn }}
+{{ nameserver_fqdn }}  IN  NS  {{ nameserver_ip }}
+
+{{ nameserver_ip|replace(virtual_machines.private_subnet_network, '')|split('.')|select('ne', '')|reverse|join('.') }} IN  PTR {{ nameserver_fqdn }}

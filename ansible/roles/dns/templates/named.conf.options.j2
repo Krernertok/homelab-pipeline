@@ -1,0 +1,32 @@
+options {
+        version "{{ dns_serial }}";
+        directory "{{ bind_directory }}";
+
+        listen-on port 53 { localhost; {{ virtual_machines.front_proxy.ip }}; };
+        allow-query { localhost; {{ virtual_machines.private_subnet }}; };
+        allow-query-cache { none; };
+
+        recursion no;
+        dnssec-validation auto;
+};
+
+logging {
+  channel bind_log {
+    file "{{ bind_logfile }}" versions 10 size 250k;
+    severity info;
+  };
+
+  category default {
+    bind_log;
+  };
+};
+
+zone "{{ virtual_machines.domain }}" {
+  type primary;
+  file "{{ dns_forward_record_file }}";
+};
+
+zone "{{ virtual_machines.private_subnet_network }}.in-addr.arpa" {
+  type master;
+  file "{{ dns_reverse_record_file }}";
+};

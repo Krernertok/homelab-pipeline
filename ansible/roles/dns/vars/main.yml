@@ -1,0 +1,5 @@
+---
+base_fqdn: "{{ virtual_machines.domain }}."
+nameserver_ip: "{{ virtual_machines.front_proxy.ip }}"
+nameserver_fqdn: "ns.{{ base_fqdn }}"
+

@@ -57,6 +57,7 @@ Configure interface connected to virtual bridge:
     set service dns forwarding cache-size '0'
     set service dns forwarding name-server 8.8.8.8
     set service dns forwarding name-server 1.1.1.1
+    set service dns forwarding domain vm.kre server 10.10.10.100
     set system name-server 10.10.10.1
     commit
     save

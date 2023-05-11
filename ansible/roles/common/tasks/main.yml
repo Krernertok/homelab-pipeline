@@ -2,17 +2,18 @@
 - name: Set hostname
   ansible.builtin.hostname:
     name: "{{ hostname }}"
+    use: "debian"
+
+- name: Replace /etc/hosts
+  ansible.builtin.template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: "root"
+    group: "root"
+    mode: 0644
 
 - name: Set authorized_keys
   ansible.posix.authorized_key:
     user: "asivula"
     key: "{{ lookup('file', pipeline_pubkey) }}"
-
-- name: Add 'asivula' to sudoers
-  ansible.builtin.lineinfile:
-    path: /etc/sudoers
-    regexp: '^asivula'
-    line: 'asivula ALL=(ALL) NOPASSWD: ALL'
-    backup: yes
-    validate: /usr/sbin/visudo -cf %s
 

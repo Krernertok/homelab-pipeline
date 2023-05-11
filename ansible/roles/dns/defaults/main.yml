@@ -1,0 +1,6 @@
+---
+dns_serial: "{{ lookup('ansible.builtin.pipe', 'date +%y%m%d%H%M') }}"
+bind_directory: "/var/cache/bind"
+bind_logfile: "/var/log/named/kre.log"
+dns_forward_record_file: "/etc/bind/zones/forward.vm.kre"
+dns_reverse_record_file: "/etc/bind/zones/reverse.vm.kre"

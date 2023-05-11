@@ -1,0 +1,13 @@
+$ORIGIN {{ base_fqdn }}
+$TTL    300
+;
+@ IN  SOA {{ base_fqdn }} root.{{ base_fqdn }} (
+    {{ dns_serial }}  ; Serial
+              604800  ; Refresh
+               86400  ; Retry
+             2419200  ; Expire
+               300 )  ; Negative Cache TTL
+;
+; Records for the nameserver
+@                                           IN  NS  {{ nameserver_fqdn }}
+{{ nameserver_fqdn|split(',')|first }}  IN  A   {{ nameserver_ip }}
