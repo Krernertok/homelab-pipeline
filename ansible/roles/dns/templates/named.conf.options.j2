@@ -2,8 +2,8 @@ options {
         version "{{ dns_serial }}";
         directory "{{ bind_directory }}";
 
-        listen-on port 53 { localhost; {{ virtual_machines.front_proxy.ip }}; };
-        allow-query { localhost; {{ virtual_machines.private_subnet }}; };
+        listen-on port 53 { localhost; {{ vms.front_proxy.ip }}; };
+        allow-query { localhost; {{ vms.subnet }}; };
         allow-query-cache { none; };
 
         recursion no;
@@ -21,12 +21,12 @@ logging {
   };
 };
 
-zone "{{ virtual_machines.domain }}" {
+zone "{{ vms.domain }}" {
   type primary;
   file "{{ dns_forward_record_file }}";
 };
 
-zone "{{ virtual_machines.private_subnet_network }}.in-addr.arpa" {
+zone "{{ vms.subnet_network }}.in-addr.arpa" {
   type master;
   file "{{ dns_reverse_record_file }}";
 };

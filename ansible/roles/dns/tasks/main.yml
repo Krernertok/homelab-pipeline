@@ -69,12 +69,12 @@
 
 - name: Check the forward zone
   ansible.builtin.command:
-    cmd: "named-checkzone {{ virtual_machines.domain }} {{ dns_forward_record_file }}"
+    cmd: "named-checkzone {{ vms.domain }} {{ dns_forward_record_file }}"
   changed_when: false
 
 - name: Check the reverse zone
   ansible.builtin.command:
-    cmd: "named-checkzone {{ virtual_machines.domain }} {{ dns_reverse_record_file }}"
+    cmd: "named-checkzone {{ vms.domain }} {{ dns_reverse_record_file }}"
   changed_when: false
 
 - name: Restart named
