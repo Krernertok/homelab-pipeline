@@ -17,3 +17,8 @@
     user: "asivula"
     key: "{{ lookup('file', pipeline_pubkey) }}"
 
+- name: Install common packages
+  ansible.builtin.apt:
+    name:
+      - man
+      - telnet
