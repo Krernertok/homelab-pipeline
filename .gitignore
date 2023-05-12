@@ -3,6 +3,7 @@
 ansible/group_vars/all
 ansible/inventory/pve1
 ansible/.vault_pass
+ansible/ansible.cfg
 
 packer/packer.log
 **/secrets.auto.pkr.hcl
