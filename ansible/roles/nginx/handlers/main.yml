@@ -1,0 +1,10 @@
+---
+
+- name: Restart nginx
+  ansible.builtin.systemd:
+    name: nginx
+    state: restarted
+
+- name: Reload configuration
+  ansible.builtin.command:
+    cmd: "sudo nginx -s reload"

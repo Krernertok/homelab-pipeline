@@ -1,0 +1,19 @@
+server {
+  listen 443 ssl;
+
+  include snippets/security-params.conf;
+  include snippets/self-signed.conf;
+
+  server_name ns.vm.kre;
+
+  default_type text/html;
+
+  return 200 "All good.\n";
+}
+
+server {
+  listen 80;
+  server_name ns.vm.kre;
+
+  return 301 https://$server_name$request_uri;
+}

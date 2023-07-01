@@ -1,0 +1,76 @@
+---
+
+- name: Copy snippets
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/nginx/snippets/"
+    owner: root
+    group: root
+    mode: 0644
+    force: no
+  loop:
+    - files/nginx/security-params.conf
+    - files/nginx/self-signed.conf
+
+- name: Check if dhparams exist
+  ansible.builtin.stat:
+    path: /etc/nginx/dhparam.pem
+  register: dhparams
+  changed_when: false
+
+- name: Create dhparams
+  ansible.builtin.command:
+    cmd: "openssl dhparam -out /etc/nginx/dhparam.pem 4096"
+  when: not dhparams.stat.exists
+
+- name: Copy SSL files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: "{{ item.mode }}"
+  loop:
+    - src: files/nginx/nginx-selfsigned.crt
+      dest: /etc/ssl/certs/nginx-selfsigned.crt
+      mode: "0644"
+    - src: files/nginx/nginx-selfsigned.key
+      dest: /etc/ssl/private/nginx-selfsigned.key
+      mode: "0600"
+
+- name: Delete default nginx configuration
+  ansible.builtin.file:
+    path: /etc/nginx/conf.d/default
+    state: absent
+
+- name: Create custom nginx configuration file
+  ansible.builtin.template:
+    src: "custom-nginx.conf.j2"
+    dest: "/etc/nginx/conf.d/custom-nginx.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Reload configuration
+
+- name: Create sites-available files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/nginx/sites-available/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - dummy-vhost
+  notify: Reload configuration
+
+- name: Create links for sites-enabled
+  ansible.builtin.file:
+    state: link
+    src: "/etc/nginx/sites-available/{{ item }}"
+    dest: "/etc/nginx/sites-enabled/{{ item }}"
+    owner: root
+    group: root
+  loop:
+    - dummy-vhost
+  notify: Reload configuration
+  when: not ansible_check_mode

@@ -1,0 +1,34 @@
+---
+
+- name: Add nginx source list
+  ansible.builtin.template:
+    src: "nginx-sources.list.j2"
+    dest: "/etc/apt/sources.list.d/nginx-sources.list"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Check if nginx PGP key exists
+  ansible.builtin.stat:
+    path: "/etc/apt/trusted.gpg.d/nginx_signing_key.gpg"
+  register: pgp_key
+
+- name: Add nginx PGP key
+  block:
+    - name: Download nginx PGP public key
+      ansible.builtin.get_url:
+        url: "https://nginx.org/keys/nginx_signing.key"
+        dest: "/tmp/nginx_signing.key"
+        mode: 0644
+
+    - name: Dearmor nginx PGP key
+      ansible.builtin.command:
+        cmd: "gpg --dearmor -o /etc/apt/trusted.gpg.d/nginx_signing_key.gpg /tmp/nginx_signing.key"
+  when: not pgp_key.stat.exists
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: "nginx={{ nginx_version }}"
+    state: present
+    update_cache: true
+  notify: Restart nginx
