@@ -45,6 +45,7 @@
     group: "bind"
     mode: 0644
   notify: Restart named
+  when: not skip_bind_config is defined
 
 - name: Check that BIND configuration is correct
   ansible.builtin.command:
@@ -59,6 +60,7 @@
     group: bind
     mode: 0640
   notify: Restart named
+  when: not skip_bind_config is defined
 
 - name: Check the forward zone
   ansible.builtin.command:
@@ -73,6 +75,7 @@
     group: bind
     mode: 0640
   notify: Restart named
+  when: not skip_bind_config is defined
 
 - name: Check the reverse zone
   ansible.builtin.command:
