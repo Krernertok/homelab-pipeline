@@ -1,0 +1,9 @@
+---
+all:
+  children:
+    front_proxy:
+      hosts:
+        nginx01.vm.kre:
+    nginx:
+      children:
+        front_proxy:

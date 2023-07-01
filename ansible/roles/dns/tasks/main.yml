@@ -44,7 +44,12 @@
     owner: "root"
     group: "bind"
     mode: 0644
+  notify: Restart named
 
+- name: Check that BIND configuration is correct
+  ansible.builtin.command:
+    cmd: "named-checkconf"
+  changed_when: false
 
 - name: Create forward zone file
   ansible.builtin.template:
@@ -53,6 +58,12 @@
     owner: root
     group: bind
     mode: 0640
+  notify: Restart named
+
+- name: Check the forward zone
+  ansible.builtin.command:
+    cmd: "named-checkzone {{ vms.domain }} {{ dns_forward_record_file }}"
+  changed_when: false
 
 - name: Create reverse zone file
   ansible.builtin.template:
@@ -61,26 +72,12 @@
     owner: root
     group: bind
     mode: 0640
-
-- name: Check that BIND configuration is correct
-  ansible.builtin.command:
-    cmd: "named-checkconf"
-  changed_when: false
-
-- name: Check the forward zone
-  ansible.builtin.command:
-    cmd: "named-checkzone {{ vms.domain }} {{ dns_forward_record_file }}"
-  changed_when: false
+  notify: Restart named
 
 - name: Check the reverse zone
   ansible.builtin.command:
     cmd: "named-checkzone {{ vms.domain }} {{ dns_reverse_record_file }}"
   changed_when: false
-
-- name: Restart named
-  ansible.builtin.systemd:
-    name: named
-    state: restarted
 
 - name: Replace /etc/resolv.conf file
   ansible.builtin.template:
